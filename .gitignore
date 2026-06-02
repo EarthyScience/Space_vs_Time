@@ -1,0 +1,4 @@
+data_preprocessing/__pycache__
+trained_models
+model_training/__pycache__
+model_evaluation/__pycache__

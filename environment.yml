@@ -1,0 +1,25 @@
+name: fluxml
+channels:
+  - conda-forge
+dependencies:
+  - torchvision
+  - torchaudio
+  - pytorch
+  - cpuonly
+  - numpy
+  - matplotlib
+  - xarray
+  - ipykernel
+  - dask
+  - h5netcdf
+  - pywavelets
+  - cftime
+  - scipy
+  - pillow
+  - captum
+  - scikit-learn
+  - joblib
+  - numba
+  - pyts
+  - xgboost
+

@@ -50,3 +50,11 @@ project/
 ├── environment.yml
 ├── README.md
 ```
+
+## Environment setup
+
+To reproduce the environment used in this project, install the Conda environment:
+
+```bash
+conda env create -f environment.yml
+```

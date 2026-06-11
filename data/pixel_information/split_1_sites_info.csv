@@ -1,0 +1,16 @@
+,site_id,site_name,IGBP,lat,lon,MAT,MAP,total_sy,siteyears,sitesamples,dataset_typ
+0,US-WCr,Willow Creek,DBF,45.8059,-90.0799,4.02,787.0,7.0,7.0,6.0,val
+1,US-MOz,,DBF,38.7441,-92.2,12.11,986.0,13.0,13.0,13.0,train
+2,CA-Oas,"Saskatchewan - Western Boreal, Mature Aspen",DBF,53.6289,-106.1978,0.34,428.53,11.0,11.0,10.0,train
+3,US-MMS,Morgan Monroe State Forest,DBF,39.3232,-86.4131,10.85,1032.0,20.0,20.0,19.0,train
+4,DK-Sor,Soroe,DBF,55.4858694,11.6446444,8.2,660.0,11.0,11.0,4.0,train
+5,US-UMB,Univ. of Mich. Biological Station,DBF,45.5598,-84.7138,5.83,803.0,15.0,15.0,14.0,train
+6,DE-Lnf,Leinefelde,DBF,51.3282167,10.3678,6.96,894.6,6.0,6.0,2.0,train
+7,US-Ha1,Harvard Forest EMS Tower (HFR1),DBF,42.5378,-72.1715,6.62,1071.0,8.0,8.0,5.0,train
+8,US-Oho,Oak Openings,DBF,41.5545,-83.8438,10.1,849.0,4.0,4.0,4.0,train
+9,DE-Hai,Hainich,DBF,51.07916667,10.453,8.3,720.0,14.0,14.0,11.0,test
+10,IT-Ro1,Roccarespampani 1,DBF,42.40812,11.93001,15.15,876.2,6.0,6.0,2.0,test
+11,US-UMd,UMBS Disturbance,DBF,45.5625,-84.6975,5.83,803.0,6.0,6.0,6.0,val
+12,IT-Ro2,Roccarespampani 2,DBF,42.39026,11.92093,15.15,876.2,7.0,7.0,2.0,train
+13,FR-Hes,,DBF,48.6741,7.06465,9.2,820.0,6.0,6.0,5.0,train
+14,FR-Fon,Fontainebleau-Barbeau,DBF,48.476358,2.780096,10.2,720.0,12.0,12.0,9.0,test

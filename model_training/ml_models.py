@@ -38,7 +38,7 @@ class Resnet_model18(nn.Module):
         output = self.head_lay3(head_lay2_output)
 
         return output
-    
+
 
 if __name__ == "__main__":
     pass

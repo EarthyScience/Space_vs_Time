@@ -4,7 +4,7 @@ Version = 1.0
 Author = drachti (drachti@bgc-jena.mpg.de)
 """
 
-#%%
+# %%
 import copy
 import time
 import numpy as np
@@ -15,6 +15,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 # %%
+
 
 class Identity:
     """
@@ -27,7 +28,7 @@ class Identity:
     def __init__(self, data: torch.Tensor):
         """initilizes the identiticlass doing nothing"""
 
-    def process(self, sample: torch.Tensor) -> (torch.Tensor):
+    def process(self, sample: torch.Tensor) -> torch.Tensor:
         """
         The forward method for preprocessing. Does nothing
         Args:
@@ -39,7 +40,7 @@ class Identity:
         """
         return sample
 
-    def deprocess(self, sample: torch.Tensor) -> (torch.Tensor):
+    def deprocess(self, sample: torch.Tensor) -> torch.Tensor:
         """
         The backward method for preprocessing that recovers the original values.
         Does nothing
@@ -112,6 +113,7 @@ class SimpleDataset(torch.utils.data.Dataset):
             targets,
         )
 
+
 def plot_loss_one_epoch(loss_data, n_epochs, date, path):
     fig = plt.figure(figsize=(10, 6))
     ax = fig.add_subplot()
@@ -127,7 +129,7 @@ def plot_loss_one_epoch(loss_data, n_epochs, date, path):
     return
 
 
-#%%
+# %%
 
 
 def trainings_loop(
@@ -184,12 +186,12 @@ def trainings_loop(
                     outputs = model(meteo_input, static_input)
                     outputs = torch.reshape(outputs, (target_flux.shape))
                     loss_mse = loss_fn(outputs, target_flux)
-                    #loss_ylsum_mse = loss_fn(torch.sum(outputs, dim=2), torch.sum(target_flux, dim=2))
+                    # loss_ylsum_mse = loss_fn(torch.sum(outputs, dim=2), torch.sum(target_flux, dim=2))
                     # print(torch.sum(outputs, dim=2).shape, torch.sum(target_flux, dim=2).shape)
                     # print(torch.sum(outputs, dim=2), torch.sum(target_flux, dim=2))
                     # print(loss_mse, loss_ylsum_mse)
                     # loss function
-                    loss = loss_mse# + loss_ylsum_mse/365
+                    loss = loss_mse  # + loss_ylsum_mse/365
 
                     # backward + optimize only if in training phase
                     if phase == "train":
@@ -215,7 +217,6 @@ def trainings_loop(
             if phase == "val" and epoch_loss < best_loss:
                 best_loss = epoch_loss
                 best_model_wts = copy.deepcopy(model.state_dict())
-
 
     print(f"Training complete")
 

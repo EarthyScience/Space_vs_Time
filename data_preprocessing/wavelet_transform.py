@@ -6,7 +6,6 @@ Author = drachti (drachti@bgc-jena.mpg.de)
 Credit = Max-Planck-Institute for Biogeochemistry
 """
 
-
 import numpy as np
 import pywt
 
@@ -22,7 +21,6 @@ class WaveletTransform:
 
     def __init__(self, scale_size: int) -> np.array:
         self.scale_size = scale_size
-
 
     def gen_log_space(self, limit: int, n: int) -> np.array:
         """
@@ -53,7 +51,6 @@ class WaveletTransform:
             scales = self.gen_log_space(731, scale_size + 2)
             scales_logsp = scales[2:] / 4
 
-
         wt_data = pywt.cwt(data, scales_logsp, "mexh")
         wt_data = wt_data[0]
 
@@ -66,7 +63,7 @@ class WaveletTransform:
         """
         features = data
         meteo_input = self.wavelet_transform(features, self.scale_size)
-        
+
         return meteo_input
 
 

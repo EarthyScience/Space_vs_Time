@@ -25,9 +25,7 @@ obs_years = pd.read_csv(pixel_dir / "obs_sitelist_mainyears.csv")
 # Root data directory (set by user or environment variable)
 import os
 
-DATA_ROOT = Path(
-    os.environ.get("DATA_ROOT", Path("data"))
-)
+DATA_ROOT = Path(os.environ.get("DATA_ROOT", Path("data")))
 
 # Dataset output locations
 save_path = DATA_ROOT / "datasets"
@@ -53,7 +51,7 @@ print(targets.shape)
 # create basic split
 
 # train basic split
-pixel_basic = pixels_time_set[pixels_time_set['obs_set'] == True]
+pixel_basic = pixels_time_set[pixels_time_set["obs_set"] == True]
 
 train_basic_feat = []
 train_basic_stat = []
@@ -63,11 +61,11 @@ train_basic_total_feat = []
 train_basic_total_stat = []
 train_basic_total_tar = []
 
-val_basic_feat= []
+val_basic_feat = []
 val_basic_stat = []
 val_basic_tar = []
 
-val_basic_total_feat= []
+val_basic_total_feat = []
 val_basic_total_stat = []
 val_basic_total_tar = []
 
@@ -75,7 +73,7 @@ test_basic_feat = []
 test_basic_stat = []
 test_basic_tar = []
 
-test_basic_total_feat= []
+test_basic_total_feat = []
 test_basic_total_stat = []
 test_basic_total_tar = []
 
@@ -106,10 +104,10 @@ for row in pixel_basic.iterrows():
         test_basic_total_stat.append(sample_total_stat)
         test_basic_total_tar.append(sample_total_tar)
 
-    index_of_site = obs_years[obs_years['Site_id'] == site_id].index[0]
+    index_of_site = obs_years[obs_years["Site_id"] == site_id].index[0]
     for j in range(19):
         year = obs_years.loc[index_of_site, str(j)]
-    
+
         if np.isnan(year):
             break
 
@@ -118,9 +116,9 @@ for row in pixel_basic.iterrows():
         sample_feat = feat[index, i_year, :]
         sample_stat = static[index, i_year, :]
         sample_tar = targets[index, i_year, :]
-        
-        #print(sample_feat.shape, obs_pixels.loc[i, "sitesamples"])
-        
+
+        # print(sample_feat.shape, obs_pixels.loc[i, "sitesamples"])
+
         if dtype == "train":
             train_basic_feat.append(sample_feat)
             train_basic_stat.append(sample_stat)
@@ -184,16 +182,19 @@ np.save(f"{save_path_test_sets}/basic_test_total_stat.npy", test_total_stat)
 np.save(f"{save_path_test_sets}/basic_test_total_tar.npy", test_total_tar)
 
 
-#%%
+# %%
 # create test set 2
 
 test2_feat = []
 test2_stat = []
 test2_tar = []
 
-pixel_test2 = pixels_time_set[(pixels_time_set['dset_type'] == "testset2") | (pixels_time_set['dset_type'] == "test1")]
+pixel_test2 = pixels_time_set[
+    (pixels_time_set["dset_type"] == "testset2")
+    | (pixels_time_set["dset_type"] == "test1")
+]
 
-# loop as above but withour years 
+# loop as above but withour years
 test2_feat = []
 test2_stat = []
 test2_tar = []
@@ -204,7 +205,7 @@ for row in pixel_test2.iterrows():
     sample_feat = feat[index, :, :]
     sample_stat = static[index, :, :]
     sample_tar = targets[index, :, :]
-    
+
     test2_feat.append(sample_feat)
     test2_stat.append(sample_stat)
     test2_tar.append(sample_tar)
@@ -231,8 +232,8 @@ val_feat = []
 val_stat = []
 val_tar = []
 
-pixel_train_space = pixels_space_set[(pixels_space_set['dset_type'] == "train_space")]
-pixel_val_space = pixels_space_set[(pixels_space_set['dset_type'] == "val_space")]
+pixel_train_space = pixels_space_set[(pixels_space_set["dset_type"] == "train_space")]
+pixel_val_space = pixels_space_set[(pixels_space_set["dset_type"] == "val_space")]
 
 for row in pixel_train_space.iterrows():
     index = row[0]
@@ -259,7 +260,7 @@ for row in pixel_val_space.iterrows():
     sample_feat = feat[index, -20:, :][selected_years]
     sample_stat = static[index, -20:, :][selected_years]
     sample_tar = targets[index, -20:, :][selected_years]
-    
+
     print(sample_feat.shape)
 
     val_feat.append(sample_feat)
@@ -294,8 +295,12 @@ val_feat = []
 val_stat = []
 val_tar = []
 
-pixel_train_spacetime = pixels_spacetime_set[(pixels_spacetime_set['dset_type'] == "train_timespace")]
-pixel_val_spacetime = pixels_spacetime_set[(pixels_spacetime_set['dset_type'] == "val_timespace")]
+pixel_train_spacetime = pixels_spacetime_set[
+    (pixels_spacetime_set["dset_type"] == "train_timespace")
+]
+pixel_val_spacetime = pixels_spacetime_set[
+    (pixels_spacetime_set["dset_type"] == "val_timespace")
+]
 
 for row in pixel_train_spacetime.iterrows():
     index = row[0]
@@ -319,7 +324,7 @@ for row in pixel_val_spacetime.iterrows():
     sample_feat = feat[index, -20:, :]
     sample_stat = static[index, -20:, :]
     sample_tar = targets[index, -20:, :]
-    
+
     val_feat.append(sample_feat)
     val_stat.append(sample_stat)
     val_tar.append(sample_tar)

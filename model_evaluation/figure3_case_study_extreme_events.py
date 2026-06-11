@@ -43,6 +43,7 @@ save_path = "../trained_models/version1/ig_results/plots"
 
 ## calculate log scales for IG plots
 
+
 # Plot
 def gen_log_space(
     limit, n
@@ -80,13 +81,9 @@ load_path_denorm = DATA_ROOT / "pre_processing_steps"
 tar_max_denorm = np.load(load_path_denorm / "tar_max_normval.npy")
 tar_min_denorm = np.load(load_path_denorm / "tar_min_normval.npy")
 
-feat_max_denorm = np.load(
-    load_path_denorm / "feat_max_normval.npy"
-).squeeze()
+feat_max_denorm = np.load(load_path_denorm / "feat_max_normval.npy").squeeze()
 
-feat_min_denorm = np.load(
-    load_path_denorm / "feat_min_normval.npy"
-).squeeze()
+feat_min_denorm = np.load(load_path_denorm / "feat_min_normval.npy").squeeze()
 
 save_path = f"../trained_models/version1/ig_results_anom"
 
@@ -234,13 +231,13 @@ ax.plot(dates, high_space_sample, label="Space", color="#c6d325")
 ax.plot(dates, high_time_sample, label="Time", color="#ef7c00")
 ax.plot(dates, high_time_space_sample, label="Time Space", color="#00b1ea")
 
-start_index_high = 194 # 90
-end_index_high = 299 # 145
+start_index_high = 194  # 90
+end_index_high = 299  # 145
 
 ax.vlines(start_index_high, 0.5, 0.8, colors="black", linestyles="--")
 ax.vlines(end_index_high, 0.5, 0.8, colors="black", linestyles="--")
 
-#%%
+# %%
 # run IG on manipulated model
 
 # load test data
@@ -422,28 +419,36 @@ for i in range(5):
 ig_space_mean = ig_space.mean(axis=0)
 ig_time_mean = ig_time.mean(axis=0)
 
-ig_space_mean_sum = ig_space_mean.sum(axis=(1,2,3))
-ig_time_mean_sum = ig_time_mean.sum(axis=(1,2,3))
-#%%
+ig_space_mean_sum = ig_space_mean.sum(axis=(1, 2, 3))
+ig_time_mean_sum = ig_time_mean.sum(axis=(1, 2, 3))
+# %%
+
 
 def denormalize_ig(y_norm, y_min, y_max, x_min, x_max):
     """
     Denormalize IG and convert to correct unit
     """
-    ig_denorm = np.zeros((2,11,64,730))
+    ig_denorm = np.zeros((2, 11, 64, 730))
     for i in range(11):
-        ig_denorm[:,i,:] = y_norm[:,i,:] * ((y_max-y_min)/(x_max[i]-x_min[i])) * 0.2729 * 86400 * 1000
+        ig_denorm[:, i, :] = (
+            y_norm[:, i, :]
+            * ((y_max - y_min) / (x_max[i] - x_min[i]))
+            * 0.2729
+            * 86400
+            * 1000
+        )
     return ig_denorm
 
-tar_min_array = np.array(tar_min_denorm[0])#np.full((1, 1, 1, 1), tar_min_denorm[0])
-tar_max_array = np.array(tar_max_denorm[0])#np.full((1, 1, 1, 1), tar_max_denrom[0])
+
+tar_min_array = np.array(tar_min_denorm[0])  # np.full((1, 1, 1, 1), tar_min_denorm[0])
+tar_max_array = np.array(tar_max_denorm[0])  # np.full((1, 1, 1, 1), tar_max_denrom[0])
 
 # denormalize IG values
-#ig_space_mean = denormalize_ig(ig_space_mean, tar_min_array, tar_max_array, feat_min_denorm, feat_max_denrom)
-#ig_time_mean = denormalize_ig(ig_time_mean, tar_min_array, tar_max_array, feat_min_denorm, feat_max_denrom)
+# ig_space_mean = denormalize_ig(ig_space_mean, tar_min_array, tar_max_array, feat_min_denorm, feat_max_denrom)
+# ig_time_mean = denormalize_ig(ig_time_mean, tar_min_array, tar_max_array, feat_min_denorm, feat_max_denrom)
 
-#ig_space_mean_sum_denorm = denormalize_minmax(ig_space_mean_sum, tar_min_array, tar_max_array)
-#ig_time_mean_sum_denorm = denormalize_minmax(ig_time_mean_sum, tar_min_array, tar_max_array)
+# ig_space_mean_sum_denorm = denormalize_minmax(ig_space_mean_sum, tar_min_array, tar_max_array)
+# ig_time_mean_sum_denorm = denormalize_minmax(ig_time_mean_sum, tar_min_array, tar_max_array)
 # save IG results to disk
 # np.save(f"{save_path}/anom_{perc}_ig_space_mean_{num_years}.npy", ig_space_mean)
 # np.save(f"{save_path}/anom_{perc}_ig_time_mean_{num_years}.npy", ig_time_mean)
@@ -473,10 +478,10 @@ fig = plt.figure(figsize=(width_in, height_in), constrained_layout=True)
 gs = gridspec.GridSpec(2, 2, height_ratios=[1, 1], figure=fig)  # First row is taller
 
 # Create the first subplot spanning all columns in the first row
-ax0 = fig.add_subplot(gs[0,0])
-ax1 = fig.add_subplot(gs[0,1])
-ax2 = fig.add_subplot(gs[1,0])
-ax3 = fig.add_subplot(gs[1,1])
+ax0 = fig.add_subplot(gs[0, 0])
+ax1 = fig.add_subplot(gs[0, 1])
+ax2 = fig.add_subplot(gs[1, 0])
+ax3 = fig.add_subplot(gs[1, 1])
 
 # set letters for subplots
 
@@ -486,49 +491,54 @@ axes = [ax0, ax1, ax2, ax3]
 # Loop through each axis and add a large black letter
 for ax, label in zip(axes, labels):
     ax.text(
-        -0.2, 1.05,  # Position slightly outside the top-left corner
+        -0.2,
+        1.05,  # Position slightly outside the top-left corner
         label,
         transform=ax.transAxes,  # Use axis coordinates (0,0 bottom-left; 1,1 top-right)
         fontsize=16,  # Adjust size as needed
         fontweight="black",
-        color="black"
+        color="black",
     )
 
 ax0.text(
-    -0.02, 1.05,  # Position slightly outside the top-left corner
+    -0.02,
+    1.05,  # Position slightly outside the top-left corner
     "Lat 51.294, Lon 24.375, Yr 2015",
     transform=ax0.transAxes,  # Use axis coordinates (0,0 bottom-left; 1,1 top-right)
     fontsize=13,  # Adjust size as needed
     fontweight="black",
-    color="black"
+    color="black",
 )
 
 ax1.text(
-    -0.05, 1.05,  # Position slightly outside the top-left corner
+    -0.05,
+    1.05,  # Position slightly outside the top-left corner
     "Lat 45.699, Lon 266.250, Yr 2019",
     transform=ax1.transAxes,  # Use axis coordinates (0,0 bottom-left; 1,1 top-right)
     fontsize=13,  # Adjust size as needed
     fontweight="black",
-    color="black"
+    color="black",
 )
-   
+
 # place text over plot C and D
 ax2.text(
-    0.18, 1.05,  # Position slightly outside the top-left corner
+    0.18,
+    1.05,  # Position slightly outside the top-left corner
     "Space minus Time",
     transform=ax2.transAxes,  # Use axis coordinates (0,0 bottom-left; 1,1 top-right)
     fontsize=14,  # Adjust size as needed
     fontweight="black",
-    color="black"
+    color="black",
 )
 
 ax3.text(
-    0.18, 1.05,  # Position slightly outside the top-left corner
+    0.18,
+    1.05,  # Position slightly outside the top-left corner
     "Space minus Time",
     transform=ax3.transAxes,  # Use axis coordinates (0,0 bottom-left; 1,1 top-right)
     fontsize=14,  # Adjust size as needed
     fontweight="black",
-    color="black"
+    color="black",
 )
 
 # ax0.text(
@@ -549,11 +559,13 @@ ax0.plot(dates, low_space_sample_denorm, label="Space", color="#c6d325")
 ax0.plot(dates, low_time_sample_denorm, label="Time", color="#ef7c00")
 ax0.plot(dates, low_time_space_sample_denorm, label="Time + Space", color="#00b1ea")
 
-ax0.vlines(start_index_low, -3, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2)
+ax0.vlines(
+    start_index_low, -3, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2
+)
 ax0.vlines(end_index_low, -3, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2)
 
 ax0.set_ylabel("NEP (gC m$^{-2}$ d$^{-1}$)")
-#ax0.set_xlabel("Time (m)")
+# ax0.set_xlabel("Time (m)")
 
 # ax.set_xlim(dates[0], pd.to_datetime("2006-01-01"))
 ax0.set_xlim(0, 365)
@@ -597,11 +609,15 @@ ax1.plot(dates, high_space_sample_denorm, label="Space", color="#c6d325")
 ax1.plot(dates, high_time_sample_denorm, label="Time", color="#ef7c00")
 ax1.plot(dates, high_time_space_sample_denorm, label="Time + Space", color="#00b1ea")
 
-ax1.vlines(start_index_high, -0.35, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2)
-ax1.vlines(end_index_high, -0.35, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2)
+ax1.vlines(
+    start_index_high, -0.35, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2
+)
+ax1.vlines(
+    end_index_high, -0.35, 1.3, colors="black", linestyles="--", alpha=alpha_vlines2
+)
 
 ax1.set_ylabel("NEP (gC m$^{-2}$ d$^{-1}$)")
-#ax1.set_xlabel("Time (m)")
+# ax1.set_xlabel("Time (m)")
 
 # ax.set_xlim(dates[0], pd.to_datetime("2006-01-01"))
 ax1.set_xlim(0, 365)
@@ -708,8 +724,8 @@ ig_time_water = (
 )
 
 # calculate the diff between both models for the low example and cut of the first year
-ig_diff_water_low = np.abs(ig_space_water[0,:] - ig_time_water[0,:])[:,365:]
-ig_diff_energy_low = np.abs(ig_space_energy[0,:] - ig_time_energy[0,:])[:,365:]
+ig_diff_water_low = np.abs(ig_space_water[0, :] - ig_time_water[0, :])[:, 365:]
+ig_diff_energy_low = np.abs(ig_space_energy[0, :] - ig_time_energy[0, :])[:, 365:]
 
 # create the same colorbar for water and energy
 vmax = np.max([ig_diff_energy_low.max(), ig_diff_water_low.max()])
@@ -747,7 +763,15 @@ plot = ax2.contourf(
     extend="max",
     levels=levels,
 )
-cbar1 = fig.colorbar(plot, ax=ax2, extendrect=False, location="bottom", orientation="horizontal", label="Energy Importance", pad=0.05)
+cbar1 = fig.colorbar(
+    plot,
+    ax=ax2,
+    extendrect=False,
+    location="bottom",
+    orientation="horizontal",
+    label="Energy Importance",
+    pad=0.05,
+)
 
 for c in plot.collections:
     c.set_edgecolor("face")
@@ -765,32 +789,36 @@ plot = ax2.contourf(
     levels=levels,
     extend="max",
 )
-cbar2 = fig.colorbar(plot, ax=ax2, extendrect=False, location="bottom", orientation="horizontal", label="Water Importance", pad=0.03)
+cbar2 = fig.colorbar(
+    plot,
+    ax=ax2,
+    extendrect=False,
+    location="bottom",
+    orientation="horizontal",
+    label="Water Importance",
+    pad=0.03,
+)
 # Manually adjust position of the second colorbar
 # pos1 = cbar1.ax.get_position()
 # pos2 = cbar2.ax.get_position()
-# cbar2.ax.set_position([pos2.x0, 0, pos2.width, pos2.height])  
+# cbar2.ax.set_position([pos2.x0, 0, pos2.width, pos2.height])
 
 for c in plot.collections:
     c.set_edgecolor("face")
 
-#ax2.set_xlabel("Time (months)")
+# ax2.set_xlabel("Time (months)")
 ax2.set_ylabel("Period (days)")
 ax2.set_yscale("log")
 
-ax2.vlines(
-    start_index_low, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines
-)
-ax2.vlines(
-    end_index_low, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines
-)
+ax2.vlines(start_index_low, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines)
+ax2.vlines(end_index_low, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines)
 
 ax2.set_xticks(month_starts)
 ax2.set_xticklabels(month_names)
 
 ## high example plots
-ig_diff_water_high = np.abs(ig_space_water[1,:] - ig_time_water[1,:])[:,365:]
-ig_diff_energy_high = np.abs(ig_space_energy[1,:] - ig_time_energy[1,:])[:,365:]
+ig_diff_water_high = np.abs(ig_space_water[1, :] - ig_time_water[1, :])[:, 365:]
+ig_diff_energy_high = np.abs(ig_space_energy[1, :] - ig_time_energy[1, :])[:, 365:]
 
 vmax = np.max([ig_diff_energy_high.max(), ig_diff_water_high.max()])
 levels = np.linspace(0, vmax, 5).round(decimals=7)
@@ -809,7 +837,14 @@ plot = ax3.contourf(
     levels=levels,
     extend="max",
 )
-cbar = fig.colorbar(plot, ax=ax3, location="bottom", orientation="horizontal", label="Energy Importance", pad=0.05)
+cbar = fig.colorbar(
+    plot,
+    ax=ax3,
+    location="bottom",
+    orientation="horizontal",
+    label="Energy Importance",
+    pad=0.05,
+)
 
 for c in plot.collections:
     c.set_edgecolor("face")
@@ -824,26 +859,31 @@ plot = ax3.contourf(
     extend="max",
     levels=levels,
 )
-cbar = fig.colorbar(plot, ax=ax3, location="bottom", orientation="horizontal", label="Water Importance", pad=0.03)
+cbar = fig.colorbar(
+    plot,
+    ax=ax3,
+    location="bottom",
+    orientation="horizontal",
+    label="Water Importance",
+    pad=0.03,
+)
 
 for c in plot.collections:
     c.set_edgecolor("face")
 
-#ax3.set_xlabel("Time (months)")
+# ax3.set_xlabel("Time (months)")
 ax3.set_yscale("log")
 
 ax3.vlines(
     start_index_high, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines
 )
-ax3.vlines(
-    end_index_high, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines
-)
+ax3.vlines(end_index_high, 0, 730, colors="black", linestyles="--", alpha=alpha_vlines)
 
 ax3.set_xticks(month_starts)
 ax3.set_xticklabels(month_names)
 
 
-#fig.tight_layout()
+# fig.tight_layout()
 fig.savefig(f"{save_path}/case_study_figure3_ver2.png", dpi=300)
 # %%
 # space - time hinzufügen

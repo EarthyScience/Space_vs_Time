@@ -38,7 +38,8 @@ class Resnet_model18(nn.Module):
         output = self.head_lay3(head_lay2_output)
 
         return output
-    
+
+
 class Model18_IG_sum(nn.Module):
     def __init__(self, num_input: int, num_classes: int):
         super(Model18_IG_sum, self).__init__()
@@ -65,8 +66,10 @@ class Model18_IG_sum(nn.Module):
         output = torch.reshape(output, (50, 365, 2))
         output = output.sum(dim=1)
         output = torch.squeeze(output)
-        
+
         return output
+
+
 class Model18_IG_sum_casestudy(nn.Module):
     def __init__(self, num_input: int, num_classes: int, start_index, end_index):
         super(Model18_IG_sum_casestudy, self).__init__()
@@ -93,10 +96,11 @@ class Model18_IG_sum_casestudy(nn.Module):
         output = self.head_lay3(head_lay2_output)
 
         output = torch.reshape(output, (50, 365, 2))
-        output = output[:, self.start_index:self.end_index, :].mean(dim=1)
+        output = output[:, self.start_index : self.end_index, :].mean(dim=1)
         output = torch.squeeze(output)
-        
+
         return output
+
 
 if __name__ == "__main__":
     pass
